@@ -24,40 +24,67 @@ curl -sSL https://raw.githubusercontent.com/git-ig/linux-tools/main/setup.sh | b
 
 ## 📦 What Gets Installed
 
+### 📁 File & Navigation
 | Tool | Replaces | Description |
 |------|----------|-------------|
 | [eza](https://github.com/eza-community/eza) | `ls` | Modern file listing with icons, git status, and colors |
 | [bat](https://github.com/sharkdp/bat) | `cat` | Syntax-highlighted file viewer |
+| [zoxide](https://github.com/ajeetdsouza/zoxide) | `cd` | Smart directory jumper — learns your habits |
+| [fzf](https://github.com/junegunn/fzf) | — | Fuzzy finder for files, history, and anything else |
+| [ripgrep](https://github.com/BurntSushi/ripgrep) | `grep` | Blazing-fast search that respects `.gitignore` |
+
+### 📊 System Monitoring
+| Tool | Replaces | Description |
+|------|----------|-------------|
 | [btop](https://github.com/aristocratsec/btop) | `top` / `htop` | Beautiful resource monitor |
 | [duf](https://github.com/muesli/duf) | `df` | Disk usage with a clean interface |
 | [gdu](https://github.com/dundee/gdu) | `du` | Fast interactive disk usage analyzer |
-| [lazydocker](https://github.com/jesseduffield/lazydocker) | `docker ps/logs/...` | Terminal UI for Docker management |
+| [ctop](https://github.com/bcicen/ctop) | `docker stats` | Top-like interface for Docker containers |
+
+### 🐳 Docker & Development
+| Tool | Replaces | Description |
+|------|----------|-------------|
+| [lazydocker](https://github.com/jesseduffield/lazydocker) | `docker ps/logs/...` | Full Docker TUI — manage containers, logs, stats |
 | [Neovim](https://neovim.io/) + [NvChad](https://nvchad.com/) | `vim` / `nano` | Modern editor with IDE-like features out of the box |
+
+### 🌐 Network
+| Tool | Replaces | Description |
+|------|----------|-------------|
+| [curlie](https://github.com/rs/curlie) | `curl` | curl with httpie-style output — readable by humans |
 
 ---
 
 ## 🔧 Aliases Configured
 
-The script automatically detects your shell (Bash or Zsh) and adds the following aliases:
+The script automatically detects your shell (Bash or Zsh) and adds the following aliases.
 
 ### 📁 File Listing — powered by `eza`
 
-| Alias | Command | Description |
-|-------|---------|-------------|
-| `ls` | `eza --icons --group-directories-first` | Clean listing with icons |
-| `ll` | `eza -lha --icons --group-directories-first --git --header` | Detailed list with hidden files and git status |
-| `la` | `eza -a --icons --group-directories-first` | All files including dotfiles |
-| `lt` | `eza --tree --level=2 --icons` | Tree view (2 levels deep) |
-| `lr` | `eza -lh --sort=modified --icons` | Files sorted by modification time |
+| Alias | Description |
+|-------|-------------|
+| `ls` | Clean listing with icons, directories first |
+| `ll` | Detailed list with hidden files and git status |
+| `la` | All files including dotfiles |
+| `lt` | Tree view, 2 levels deep |
+| `lr` | Files sorted by modification time |
 
 ### 🧰 Tool Shortcuts
 
 | Alias | Runs | Description |
 |-------|------|-------------|
-| `vi` | `nvim` | Open Neovim |
-| `vim` | `nvim` | Open Neovim |
+| `vi` / `vim` | `nvim` | Open Neovim |
 | `bat` | `batcat` | Syntax-highlighted file preview |
 | `lzd` | `lazydocker` | Open lazydocker TUI |
+| `rg` | `rg --color=auto` | Colorized ripgrep search |
+| `curl` | `curlie` | Human-readable HTTP requests |
+
+### 🚀 Shell Enhancements
+
+| Feature | Description |
+|---------|-------------|
+| `z <name>` | Jump to a frecently used directory with zoxide |
+| `Ctrl+R` | Fuzzy search through command history with fzf |
+| fzf + rg | fzf is configured to use ripgrep as its file engine |
 
 ---
 
@@ -66,6 +93,7 @@ The script automatically detects your shell (Bash or Zsh) and adds the following
 - Ubuntu 20.04+ or Debian 11+
 - `sudo` access
 - Internet connection
+- Docker installed (for `ctop` and `lazydocker` to be useful)
 
 The script is safe to re-run — aliases are only added once.
 
@@ -73,13 +101,16 @@ The script is safe to re-run — aliases are only added once.
 
 ## 📋 What the Script Does, Step by Step
 
-1. **Updates** the system and installs base dependencies (`curl`, `wget`, `git`, `gpg`)
-2. **Installs** `btop`, `duf`, `gdu`, `bat` from apt
+1. **Updates** the system and installs base dependencies
+2. **Installs** `btop`, `duf`, `gdu`, `bat`, `ripgrep`, `fzf` from apt
 3. **Adds the eza repository** and installs `eza`
-4. **Installs lazydocker** via its official install script and moves it to `/usr/local/bin`
-5. **Installs Neovim** from the unstable PPA (latest version)
-6. **Clones NvChad starter** config into `~/.config/nvim` (only if not already present)
-7. **Detects your shell** and appends aliases to `~/.bashrc` or `~/.zshrc`
+4. **Installs zoxide** via official script and moves it to `/usr/local/bin`
+5. **Installs curlie** via official script
+6. **Installs ctop** — fetches the latest release binary from GitHub
+7. **Installs lazydocker** via its official install script
+8. **Installs Neovim** from the unstable PPA (latest version)
+9. **Clones NvChad starter** config into `~/.config/nvim` (only if not already present)
+10. **Detects your shell** and appends aliases + zoxide/fzf init to `~/.bashrc` or `~/.zshrc`
 
 ---
 
