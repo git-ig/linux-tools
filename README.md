@@ -1,68 +1,109 @@
-# 🛠️ Modern Linux Tools Setup
+# 🛠️ linux-tools
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Platform](https://img.shields.io/badge/platform-ubuntu%20%7C%20debian-orange)](https://ubuntu.com/)
-[![Shell](https://img.shields.io/badge/shell-bash%20%7C%20zsh-blue)](https://www.gnu.org/software/bash/)
+[![OS](https://img.shields.io/badge/OS-Ubuntu%20%7C%20Debian-orange?logo=ubuntu)](https://ubuntu.com/)
+[![Shell](https://img.shields.io/badge/Shell-Bash%20%7C%20Zsh-blue?logo=gnu-bash)](https://www.gnu.org/software/bash/)
+[![Editor](https://img.shields.io/badge/Editor-Neovim%20%2B%20NvChad-green?logo=neovim)](https://nvchad.com/)
 
-A curated collection of modern Unix tools and a high-performance terminal configuration. This script automates the installation of the "Modern Unix" stack and sets up an optimized environment for developers and sysadmins.
+A single-script setup for a clean, modern Linux CLI environment. Installs essential tools, configures smart aliases, and gets you from a fresh Ubuntu/Debian install to a productive terminal in under two minutes.
 
-## 🚀 One-Liner Installation
+---
 
-Run the following command to transform your terminal:
+## ⚡ Quick Start
 
 ```bash
 curl -sSL https://raw.githubusercontent.com/git-ig/linux-tools/main/setup.sh | bash
+```
 
-📦 What's Included?
+> After the script finishes, reload your shell config:
+> ```bash
+> source ~/.bashrc   # or source ~/.zshrc
+> ```
 
-The setup script installs and configures the following "Top-Tier" utilities:
-Tool	Description
-eza	A modern, feature-rich replacement for ls.
-bat	A cat clone with syntax highlighting and Git integration.
-btop	An interactive resource monitor (CPU, Memory, Network, Disks).
-lazydocker	A simple terminal UI for both docker and docker-compose.
-duf	A better df alternative with a clean, colorful layout.
-gdu	Fast disk usage analyzer with a console interface.
-Neovim	Hyperextensible Vim-based text editor (Latest Unstable PPA).
-NvChad	A blazing fast Neovim config providing a solid IDE-like experience.
-⌨️ Custom Aliases
+---
 
-The script automatically detects your shell (Bash or Zsh) and appends the following productivity aliases:
-Navigation & Listing (eza)
+## 📦 What Gets Installed
 
-    ls → Beautiful list with icons and directories first.
+| Tool | Replaces | Description |
+|------|----------|-------------|
+| [eza](https://github.com/eza-community/eza) | `ls` | Modern file listing with icons, git status, and colors |
+| [bat](https://github.com/sharkdp/bat) | `cat` | Syntax-highlighted file viewer |
+| [btop](https://github.com/aristocratsec/btop) | `top` / `htop` | Beautiful resource monitor |
+| [duf](https://github.com/muesli/duf) | `df` | Disk usage with a clean interface |
+| [gdu](https://github.com/dundee/gdu) | `du` | Fast interactive disk usage analyzer |
+| [lazydocker](https://github.com/jesseduffield/lazydocker) | `docker ps/logs/...` | Terminal UI for Docker management |
+| [Neovim](https://neovim.io/) + [NvChad](https://nvchad.com/) | `vim` / `nano` | Modern editor with IDE-like features out of the box |
 
-    ll → Detailed long-view with headers and Git status.
+---
 
-    la → Show all files (including hidden).
+## 🔧 Aliases Configured
 
-    lt → Tree view (2 levels deep).
+The script automatically detects your shell (Bash or Zsh) and adds the following aliases:
 
-    lr → Sort by most recently modified (newest at bottom).
+### 📁 File Listing — powered by `eza`
 
-Shortcuts
+| Alias | Command | Description |
+|-------|---------|-------------|
+| `ls` | `eza --icons --group-directories-first` | Clean listing with icons |
+| `ll` | `eza -lha --icons --group-directories-first --git --header` | Detailed list with hidden files and git status |
+| `la` | `eza -a --icons --group-directories-first` | All files including dotfiles |
+| `lt` | `eza --tree --level=2 --icons` | Tree view (2 levels deep) |
+| `lr` | `eza -lh --sort=modified --icons` | Files sorted by modification time |
 
-    vi / vim → Launches nvim.
+### 🧰 Tool Shortcuts
 
-    bat → Launches batcat.
+| Alias | Runs | Description |
+|-------|------|-------------|
+| `vi` | `nvim` | Open Neovim |
+| `vim` | `nvim` | Open Neovim |
+| `bat` | `batcat` | Syntax-highlighted file preview |
+| `lzd` | `lazydocker` | Open lazydocker TUI |
 
-    lzd → Launches lazydocker.
+---
 
-🛠️ Manual Post-Install Steps
+## 🖥️ Requirements
 
-After the script finishes, apply the changes to your current session:
-code Bash
+- Ubuntu 20.04+ or Debian 11+
+- `sudo` access
+- Internet connection
 
-# For Bash users
-source ~/.bashrc
+The script is safe to re-run — aliases are only added once.
 
-# For Zsh users
-source ~/.zshrc
+---
 
-📋 Requirements
+## 📋 What the Script Does, Step by Step
 
-    OS: Ubuntu or Debian-based distributions.
+1. **Updates** the system and installs base dependencies (`curl`, `wget`, `git`, `gpg`)
+2. **Installs** `btop`, `duf`, `gdu`, `bat` from apt
+3. **Adds the eza repository** and installs `eza`
+4. **Installs lazydocker** via its official install script and moves it to `/usr/local/bin`
+5. **Installs Neovim** from the unstable PPA (latest version)
+6. **Clones NvChad starter** config into `~/.config/nvim` (only if not already present)
+7. **Detects your shell** and appends aliases to `~/.bashrc` or `~/.zshrc`
 
-    Privileges: Sudo access is required for package installation.
+---
 
-Maintained by git-ig
+## 🗂️ Repository Structure
+
+```
+linux-tools/
+└── setup.sh       # Main setup script
+└── README.md      # This file
+```
+
+---
+
+## 🤝 Contributing
+
+Found a bug or want to add a tool? PRs and issues are welcome.
+
+1. Fork the repo
+2. Create your branch: `git checkout -b feature/my-tool`
+3. Commit your changes: `git commit -m 'Add my-tool'`
+4. Push and open a Pull Request
+
+---
+
+## 📄 License
+
+[MIT](https://opensource.org/licenses/MIT) — do whatever you want with it.
