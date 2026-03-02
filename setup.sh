@@ -3,7 +3,7 @@
 # 1. Update system and install base dependencies
 echo "--- Updating system and installing base packages ---"
 sudo apt update && sudo apt upgrade -y
-sudo apt install -y curl wget git gpg software-properties-common
+sudo apt install -y curl wget git gpg software-properties-common unzip
 
 # 2. Install standard tools (btop, duf, gdu, bat, ripgrep, fzf)
 echo "--- Installing btop, duf, gdu, bat, ripgrep, fzf ---"
@@ -19,34 +19,45 @@ echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable
 sudo apt update
 sudo apt install -y eza
 
-# 4. Install zoxide (smart cd)
+# 4. Install yazi (terminal file manager)
+echo "--- Installing yazi ---"
+YAZI_VERSION=$(curl -sSL https://api.github.com/repos/sxyazi/yazi/releases/latest | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
+YAZI_TMP_DIR=$(mktemp -d)
+YAZI_ASSET="yazi-x86_64-unknown-linux-musl.zip"
+sudo wget -qO "$YAZI_TMP_DIR/yazi.zip" "https://github.com/sxyazi/yazi/releases/download/${YAZI_VERSION}/${YAZI_ASSET}"
+unzip -q "$YAZI_TMP_DIR/yazi.zip" -d "$YAZI_TMP_DIR"
+sudo install -m 755 "$YAZI_TMP_DIR"/yazi-*/yazi /usr/local/bin/yazi
+sudo install -m 755 "$YAZI_TMP_DIR"/yazi-*/ya /usr/local/bin/ya
+rm -rf "$YAZI_TMP_DIR"
+
+# 5. Install zoxide (smart cd)
 echo "--- Installing zoxide ---"
 curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 if [ -f "$HOME/.local/bin/zoxide" ]; then
     sudo mv "$HOME/.local/bin/zoxide" /usr/local/bin/
 fi
 
-# 5. Install curlie (human-friendly curl)
+# 6. Install curlie (human-friendly curl)
 echo "--- Installing curlie ---"
 curl -sS https://webinstall.dev/curlie | bash
 if [ -f "$HOME/.local/bin/curlie" ]; then
     sudo mv "$HOME/.local/bin/curlie" /usr/local/bin/
 fi
 
-# 6. Install ctop (top for Docker containers)
+# 7. Install ctop (top for Docker containers)
 echo "--- Installing ctop ---"
 CTOP_VERSION=$(curl -sSL https://api.github.com/repos/bcicen/ctop/releases/latest | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
 sudo wget -qO /usr/local/bin/ctop "https://github.com/bcicen/ctop/releases/download/${CTOP_VERSION}/ctop-${CTOP_VERSION#v}-linux-amd64"
 sudo chmod +x /usr/local/bin/ctop
 
-# 7. Install lazydocker
+# 8. Install lazydocker
 echo "--- Installing lazydocker ---"
 curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
 if [ -f "$HOME/.local/bin/lazydocker" ]; then
     sudo mv "$HOME/.local/bin/lazydocker" /usr/local/bin/
 fi
 
-# 8. Install latest Neovim and NvChad
+# 9. Install latest Neovim and NvChad
 echo "--- Installing Neovim (unstable PPA) and NvChad ---"
 sudo add-apt-repository ppa:neovim-ppa/unstable -y
 sudo apt update
@@ -55,7 +66,7 @@ if [ ! -d "$HOME/.config/nvim" ]; then
     git clone https://github.com/NvChad/starter ~/.config/nvim --depth 1
 fi
 
-# 9. Detect Shell and Add Aliases
+# 10. Detect Shell and Add Aliases
 echo "--- Configuring aliases ---"
 if [ -n "$ZSH_VERSION" ] || [ -f "$HOME/.zshrc" ]; then
     CONF_FILE="$HOME/.zshrc"
@@ -71,6 +82,7 @@ alias vi="nvim"
 alias vim="nvim"
 alias bat="batcat"
 alias lzd="lazydocker"
+alias yz="yazi"
 alias rg="rg --color=auto"
 alias curl="curlie"
 

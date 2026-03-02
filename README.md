@@ -28,6 +28,7 @@ curl -sSL https://raw.githubusercontent.com/git-ig/linux-tools/main/setup.sh | b
 | Tool | Replaces | Description |
 |------|----------|-------------|
 | [eza](https://github.com/eza-community/eza) | `ls` | Modern file listing with icons, git status, and colors |
+| [yazi](https://github.com/sxyazi/yazi) | `ranger` / `lf` | Blazing-fast terminal file manager |
 | [bat](https://github.com/sharkdp/bat) | `cat` | Syntax-highlighted file viewer |
 | [zoxide](https://github.com/ajeetdsouza/zoxide) | `cd` | Smart directory jumper — learns your habits |
 | [fzf](https://github.com/junegunn/fzf) | — | Fuzzy finder for files, history, and anything else |
@@ -75,6 +76,7 @@ The script automatically detects your shell (Bash or Zsh) and adds the following
 | `vi` / `vim` | `nvim` | Open Neovim |
 | `bat` | `batcat` | Syntax-highlighted file preview |
 | `lzd` | `lazydocker` | Open lazydocker TUI |
+| `yz` | `yazi` | Open yazi file manager |
 | `rg` | `rg --color=auto` | Colorized ripgrep search |
 | `curl` | `curlie` | Human-readable HTTP requests |
 
@@ -82,7 +84,7 @@ The script automatically detects your shell (Bash or Zsh) and adds the following
 
 | Feature | Description |
 |---------|-------------|
-| `z <name>` | Jump to a frecently used directory with zoxide |
+| `z <name>` | Jump to a frequently used directory with zoxide |
 | `Ctrl+R` | Fuzzy search through command history with fzf |
 | fzf + rg | fzf is configured to use ripgrep as its file engine |
 
@@ -104,13 +106,14 @@ The script is safe to re-run — aliases are only added once.
 1. **Updates** the system and installs base dependencies
 2. **Installs** `btop`, `duf`, `gdu`, `bat`, `ripgrep`, `fzf` from apt
 3. **Adds the eza repository** and installs `eza`
-4. **Installs zoxide** via official script and moves it to `/usr/local/bin`
-5. **Installs curlie** via official script
-6. **Installs ctop** — fetches the latest release binary from GitHub
-7. **Installs lazydocker** via its official install script
-8. **Installs Neovim** from the unstable PPA (latest version)
-9. **Clones NvChad starter** config into `~/.config/nvim` (only if not already present)
-10. **Detects your shell** and appends aliases + zoxide/fzf init to `~/.bashrc` or `~/.zshrc`
+4. **Installs yazi** — fetches the latest release binary from GitHub
+5. **Installs zoxide** via official script and moves it to `/usr/local/bin`
+6. **Installs curlie** via official script
+7. **Installs ctop** — fetches the latest release binary from GitHub
+8. **Installs lazydocker** via its official install script
+9. **Installs Neovim** from the unstable PPA (latest version)
+10. **Clones NvChad starter** config into `~/.config/nvim` (only if not already present)
+11. **Detects your shell** and appends aliases + zoxide/fzf init to `~/.bashrc` or `~/.zshrc`
 
 ---
 
